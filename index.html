@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifrado Vigenère</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        textarea,
+        input[type="text"],
+        button {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .button-group button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="">
+            <div class="form-group">
+                <label for="clave">Clave:</label>
+                <input type="text" id="clave">
+            </div>
+            <div class="form-group">
+                <label for="nms">Mensaje:</label>
+                <textarea name="nms" id="nms" cols="30" rows="10"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="cms">Mensaje Cifrado:</label>
+                <textarea name="" id="cms" cols="30" rows="10"></textarea>
+            </div>
+            <div class="button-group">
+                <button onclick="cifrarVigenere(event)">Cifrar</button>
+                <button onclick="descifrar(event)">Descifrar</button>
+            </div>
+        </form>
+    </div>
+    <script>
+      function cifrarVigenere(event) {
+    event.preventDefault();
+
+    let clave = document.getElementById("clave").value;
+    let mensaje = document.getElementById("nms").value;
+    let mensajeCifrado = "";
+    let claveExtendida = clave.repeat(Math.ceil(mensaje.length / clave.length)).slice(0, mensaje.length);
+
+    for (let i = 0; i < mensaje.length; i++) {
+        let charCodeMensaje = mensaje.charCodeAt(i);
+        let charCodeClave = claveExtendida.charCodeAt(i);
+        let codigoCifrado = (charCodeMensaje + charCodeClave )
+        mensajeCifrado += String.fromCharCode(codigoCifrado);
+    }
+
+    let textarea = document.getElementById("cms");
+    textarea.value = mensajeCifrado;
+    document.getElementById("nms").value =""; 
+}
+
+function descifrar(event) {
+    event.preventDefault();
+
+    let clave = document.getElementById("clave").value;
+    let mensajeCifrado = document.getElementById("cms").value;
+    let mensajeDescifrado = "";
+    let claveExtendida = clave.repeat(Math.ceil(mensajeCifrado.length / clave.length)).slice(0, mensajeCifrado.length);
+
+    for (let i = 0; i < mensajeCifrado.length; i++) {
+        let charCodeMensaje = mensajeCifrado.charCodeAt(i);
+        let charCodeClave = claveExtendida.charCodeAt(i);
+        let codigoDescifrado = (charCodeMensaje - charCodeClave );
+        mensajeDescifrado += String.fromCharCode(codigoDescifrado);
+    }
+
+    let textarea = document.getElementById("nms");
+    textarea.value = mensajeDescifrado;
+    document.getElementById("cms").value = "";
+}
+
+    </script>
+</body>
+
+</html>
+
